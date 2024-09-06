@@ -6,6 +6,11 @@ import router from '@/router';
 const sideBarItems = [{title: '图床'}]
 const globalStore = useGlobalStore()
 const {sideBar} = storeToRefs(globalStore)
+
+function handleLogout() {
+    localStorage.removeItem('access_token')
+    router.push({name: 'login'})
+}
 </script>
 
 <template>
@@ -24,9 +29,19 @@ const {sideBar} = storeToRefs(globalStore)
                 :to="{name: item.name, path: item.path}"
                 :value="index"></v-list-item>
             </v-list>
+            <template #append>
+                <v-btn block class="p-2" @click="handleLogout">Logout</v-btn>
+            </template>
         </v-navigation-drawer>
         <v-main>
             <slot></slot>
         </v-main>
     </v-layout>
 </template>
+
+<style scoped>
+:deep(.v-navigation-drawer__append) {
+    padding: 10px;
+}
+
+</style>
