@@ -12,7 +12,7 @@ async function handleChange(e){
     console.log(e.target.files)
     e.target.values = ''
     const ret = await file.post(formData, {timeout: 100_000})
-    ret.data.forEach(i=>imgs.value.push(i.id))
+    ret.data.forEach(i=>imgs.value.push(i.url))
 }
 
 </script>
@@ -25,7 +25,7 @@ async function handleChange(e){
     </label>
     <input type="file" id="file" style="display: none;" multiple accept="image/*" @change="handleChange">
     <div class="h-[500px]" id="con">
-        <v-img v-for="i in imgs" :src="`http://hw:5000/file/${i}`" @click="handleClickImg(i.url)" class="hover:cursor-pointer"></v-img>
+        <v-img v-for="i in imgs" :key="i" :src="i" @click="handleClickImg(i)" class="hover:cursor-pointer" rounded="sm"></v-img>
     </div>
 </v-card>
 </template>
@@ -34,5 +34,6 @@ async function handleChange(e){
 #con {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
 }
 </style>
